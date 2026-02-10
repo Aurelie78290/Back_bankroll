@@ -1,16 +1,29 @@
 import express from "express";
 import cors from "cors";
+import dotenv from "dotenv";
+import router from "./router/router.js";
 
-const app = express()
+dotenv.config();
+
+const app = express();
 
 app.use(cors({origin:"*"}));
+app.use(express.json());
 
+
+//route de test
 app.get('/', (req,res) => {
-    res.send('Tu es sur la route');
+    res.json({message: 'Tu es sur la route de api bankroll'});
 });
 
+//onajoute les routes
+app.use('/api', router);
+
+
 //on écoute le port 4242
-app.listen(4242, () => {
-    console.log('http://localhost:4242');
+const PORT = process.env.PORT || 4242;
+
+app.listen(PORT, () => {
+    console.log(`Server running on port ${PORT}`);
 });
 
