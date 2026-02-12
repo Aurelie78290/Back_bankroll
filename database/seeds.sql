@@ -17,16 +17,17 @@ SET SQL_SAFE_UPDATES = 1;
 -- 🔹 Users
 INSERT INTO users (username, email, password, initial_bankroll)
 VALUES 
-('Aurélie', 'aurelie@email.com', '$2a$10$abcdef1234567890abcdef1234567890abcdef1234567890abcdef12', 1000),
-('Alex', 'alex@email.com', '$2a$10$abcdef1234567890abcdef1234567890abcdef1234567890abcdef12', 500);
+('Aurélie', 'aurelie@email.com', '$2b$10$uo50oT8LoeeJL5ZwfZ.GuuC4ZpQljyLD8ly1.fkdWzkWz.qQDWSSa', 1000),
+('Alex', 'alex@email.com', '$2b$10$uo50oT8LoeeJL5ZwfZ.GuuC4ZpQljyLD8ly1.fkdWzkWz.qQDWSSa', 500),
+('Klara', 'klara@test.com','$2b$10$uo50oT8LoeeJL5ZwfZ.GuuC4ZpQljyLD8ly1.fkdWzkWz.qQDWSSa',1000);
 
 -- 🔹 Sessions
 -- Vérifier que les IDs des utilisateurs correspondent aux IDs générés
-INSERT INTO sessions (user_id, date, buy_in, cash_out, duration,game_type, notes)
+INSERT INTO sessions (user_id, date, room, buy_in, cash_out, duration, game_type, technical_rating, mental_rating, notes)
 VALUES
-(1, '2026-02-09', 100, 150, 120, 'Cash Game', 'Bonne session, beaucoup de cartes favorables'),
-(1, '2026-02-08', 50, 30, 60, 'Cash Game', 'Session courte, pas de chance'),
-(2, '2026-02-09', 200, 250, 180, 'Tournoi', 'Session gagnante');
+(1, '2026-02-09','Winamax', 100, 150, 120, 'Cash Game', 8, 9, 'Bonne session, beaucoup de cartes favorables'),
+(1, '2026-02-08','PMU Poker', 50, 30, 60, 'Cash Game', 5, 4, 'Session courte, pas de chance'),
+(2, '2026-02-09', 'Casino Live Paris', 200, 250, 180, 'Tournoi', 9, 8, 'Session gagnante');
 
 -- 🔹 Tags
 INSERT INTO tags (name)

@@ -2,10 +2,32 @@ import db from "../database/db.js";
 
 const sessionRepository = {
   // Create
-  async create(userId, date, buyIn, cashOut, duration, gameType, notes) {
+  async create(
+    userId,
+    date,
+    room,
+    buyIn,
+    cashOut,
+    duration,
+    gameType,
+    technicalRating,
+    mentalRating,
+    notes,
+  ) {
     const [result] = await db.query(
-      "INSERT INTO sessions (user_id, date, buy_in, cash_out, duration, game_type, notes) VALUES (?,?,?,?,?,?,?)",
-      [userId, date, buyIn, cashOut, duration, gameType, notes],
+      "INSERT INTO sessions (user_id, date, room, buy_in, cash_out, duration, game_type, technical_rating, mental_rating, notes) VALUES (?,?,?,?,?,?,?,?,?,?)",
+      [
+        userId,
+        date,
+        room,
+        buyIn,
+        cashOut,
+        duration,
+        gameType,
+        technicalRating,
+        mentalRating,
+        notes,
+      ],
     );
     return result.insertId;
   },
@@ -47,9 +69,14 @@ const sessionRepository = {
   async findByUserId(userId) {
     const [rows] = await db.query(
       `
-      SELECT s.*, (s.cash_out - s.buy_in) as profit
+      SELECT s.*, 
+             (s.cash_out - s.buy_in) as profit,
+             GROUP_CONCAT(t.name) as tags
       FROM sessions s
+      LEFT JOIN session_tags st ON s.id = st.session_id
+      LEFT JOIN tags t ON st.tag_id = t.id
       WHERE s.user_id = ?
+      GROUP BY s.id
       ORDER BY s.date DESC
     `,
       [userId],
@@ -60,11 +87,34 @@ const sessionRepository = {
   // Update
   async update(
     id,
-    { userId, date, buyIn, cashOut, duration, gameType, notes },
+    {
+      userId,
+      date,
+      room,
+      buyIn,
+      cashOut,
+      duration,
+      gameType,
+      technicalRating,
+      mentalRating,
+      notes,
+    },
   ) {
     await db.query(
-      "UPDATE sessions SET user_id=?, date=?, buy_in=?, cash_out=?, duration=?, game_type=?, notes=? WHERE id=?",
-      [userId, date, buyIn, cashOut, duration, gameType, notes, id],
+      "UPDATE sessions SET user_id=?, date=?, room=?, buy_in=?, cash_out=?, duration=?, game_type=?, technical_rating=?, mental_rating=?, notes=? WHERE id=?",
+      [
+        userId,
+        date,
+        room,
+        buyIn,
+        cashOut,
+        duration,
+        gameType,
+        technicalRating,
+        mentalRating,
+        notes,
+        id,
+      ],
     );
   },
 

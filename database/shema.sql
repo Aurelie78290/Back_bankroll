@@ -26,10 +26,13 @@ CREATE TABLE sessions (
   id INT PRIMARY KEY AUTO_INCREMENT,
   user_id INT NOT NULL,
   date DATE NOT NULL,
+  room VARCHAR(100) COMMENT 'Salle où la session a été jouée (ex: Winamax, PMU, Live Casino)',
   buy_in DECIMAL(10,2) NOT NULL,
   cash_out DECIMAL(10,2) NOT NULL,
   duration INT COMMENT 'Durée en minutes',
   game_type VARCHAR(50) COMMENT 'Type de jeu (cash, tournoi, etc.)',
+  technical_rating TINYINT CHECK (technical_rating BETWEEN 1 AND 10) COMMENT 'Note technique sur 10',
+  mental_rating TINYINT CHECK (mental_rating BETWEEN 1 AND 10) COMMENT 'Note mentale/cooldown sur 10',
   notes TEXT,
   FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
